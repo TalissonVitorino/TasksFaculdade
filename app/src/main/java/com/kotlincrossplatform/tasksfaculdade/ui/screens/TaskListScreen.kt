@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,10 +43,21 @@ fun TaskListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Minhas Tarefas") })
+            TopAppBar(
+                title = { Text("Minhas Tarefas") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor        = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor     = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+            )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToCreate) {
+            FloatingActionButton(
+                onClick = onNavigateToCreate,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor   = MaterialTheme.colorScheme.onPrimary,
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Nova tarefa")
             }
         }

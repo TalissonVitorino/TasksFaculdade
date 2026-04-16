@@ -18,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -49,18 +50,15 @@ fun TaskFormScreen(
     val isEditMode = taskId != null
     val isLoaded = !isEditMode || selectedTask != null
 
-    // Resets state on screen entry (prevents Saved state from a prior operation triggering immediate back navigation)
     DisposableEffect(Unit) {
         viewModel.resetFormState()
         onDispose { }
     }
 
-    // Load task data for edit mode
     LaunchedEffect(taskId) {
         if (taskId != null) viewModel.loadTaskForEdit(taskId)
     }
 
-    // Pre-fill fields when task is loaded
     LaunchedEffect(selectedTask) {
         selectedTask?.let {
             title = it.title
@@ -68,7 +66,6 @@ fun TaskFormScreen(
         }
     }
 
-    // Navigate back when saved
     LaunchedEffect(formUiState) {
         if (formUiState is TaskFormUiState.Saved) onNavigateBack()
     }
@@ -81,7 +78,12 @@ fun TaskFormScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor              = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor           = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor  = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
             )
         }
     ) { innerPadding ->
