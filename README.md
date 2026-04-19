@@ -533,3 +533,5 @@ O emulador Android roda em uma máquina virtual separada. Do ponto de vista do e
 ### Por que `arrays.xml` para o Google Fonts?
 
 A documentação da biblioteca `ui-text-google-fonts` afirma que os certificados são fornecidos automaticamente. Na prática, com o AGP 9.x, o arquivo `R.array.com_google_android_gms_fonts_certs` não é resolvido sem um `arrays.xml` explícito no projeto. O arquivo foi criado manualmente em `app/src/main/res/values/arrays.xml` com os certificados do Google Play Services.
+#   T a s k s F a c u l d a d e  
+ 
