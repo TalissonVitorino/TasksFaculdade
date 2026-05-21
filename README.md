@@ -6,31 +6,31 @@ App Android desenvolvido em **Kotlin + Jetpack Compose** para gerenciar tarefas 
 
 ## Índice
 
-1. [Visão Geral](#1-visão-geral)
-2. [Stack Tecnológica](#2-stack-tecnológica)
-3. [Pré-requisitos](#3-pré-requisitos)
-4. [Como rodar o projeto](#4-como-rodar-o-projeto)
-5. [Estrutura de Pacotes](#5-estrutura-de-pacotes)
-6. [Arquitetura — MVVM](#6-arquitetura--mvvm)
-7. [Camada de Dados](#7-camada-de-dados)
-8. [Camada de ViewModel](#8-camada-de-viewmodel)
-9. [Camada de UI](#9-camada-de-ui)
-10. [Tema Deep Ocean](#10-tema-deep-ocean)
-11. [Navegação](#11-navegação)
-12. [Contrato da API](#12-contrato-da-api)
-13. [Histórico de Commits](#13-histórico-de-commits)
-14. [Decisões de Design](#14-decisões-de-design)
+- [1 Visão Geral](#1-visão-geral)
+- [2 Stack Tecnológica](#2-stack-tecnológica)
+- [3 Pré-requisitos](#3-pré-requisitos)
+- [4 Como rodar o projeto](#4-como-rodar-o-projeto)
+- [5 Estrutura de Pacotes](#5-estrutura-de-pacotes)
+- [6 Arquitetura — MVVM](#6-arquitetura--mvvm)
+- [7 Camada de Dados](#7-camada-de-dados)
+- [8 Camada de ViewModel](#8-camada-de-viewmodel)
+- [9 Camada de UI](#9-camada-de-ui)
+- [10 Tema Deep Ocean](#10-tema-deep-ocean)
+- [11 Navegação](#11-navegação)
+- [12 Contrato da API](#12-contrato-da-api)
+- [13 Histórico de Commits](#13-histórico-de-commits)
+- [14 Decisões de Design](#14-decisões-de-design)
 
 ---
 
-## 1. Visão Geral
+## 1 Visão Geral
 
 O app exibe uma lista de tarefas buscadas de um servidor local, permite criar novas tarefas, editar existentes, marcar como concluídas e excluir. Toda a persistência é feita no backend — o app é puramente um cliente REST.
 
 **Funcionalidades:**
 
 | Funcionalidade | Descrição |
-|---|---|
+| :--- | :--- |
 | Listar tarefas | Exibe todas as tarefas com título, descrição e status |
 | Criar tarefa | Formulário com título (obrigatório) e descrição |
 | Editar tarefa | Pré-preenche o formulário com dados existentes |
@@ -41,10 +41,10 @@ O app exibe uma lista de tarefas buscadas de um servidor local, permite criar no
 
 ---
 
-## 2. Stack Tecnológica
+## 2 Stack Tecnológica
 
 | Componente | Versão | Função |
-|---|---|---|
+| :--- | :--- | :--- |
 | Kotlin | 2.2.10 | Linguagem principal |
 | Android Gradle Plugin | 9.1.1 | Build system |
 | minSdk / targetSdk | 35 / 36 | Compatibilidade Android |
@@ -60,7 +60,7 @@ O app exibe uma lista de tarefas buscadas de um servidor local, permite criar no
 
 ---
 
-## 3. Pré-requisitos
+## 3 Pré-requisitos
 
 - **Android Studio** Hedgehog ou mais recente
 - **JDK 11+**
@@ -71,7 +71,7 @@ O app exibe uma lista de tarefas buscadas de um servidor local, permite criar no
 
 ---
 
-## 4. Como rodar o projeto
+## 4 Como rodar o projeto
 
 ### 4.1 Subir o backend
 
@@ -99,11 +99,11 @@ Resposta esperada:
 
 ### 4.2 Abrir o projeto Android
 
-1. Abra o **Android Studio**
-2. `File > Open` → selecione `C:\Users\talis\AndroidStudioProjects\TasksFaculdade`
-3. Aguarde o Gradle sync finalizar
-4. Inicie o emulador (API 35+)
-5. Clique em **Run 'app'** (▶)
+1. Abra o **Android Studio**.
+2. `File > Open` → selecione `C:\Users\talis\AndroidStudioProjects\TasksFaculdade`.
+3. Aguarde o Gradle sync finalizar.
+4. Inicie o emulador (API 35+).
+5. Clique em **Run 'app'** (▶).
 
 ### 4.3 Build via linha de comando
 
@@ -124,7 +124,7 @@ app/build/outputs/apk/debug/app-debug.apk
 
 ---
 
-## 5. Estrutura de Pacotes
+## 5 Estrutura de Pacotes
 
 ```text
 app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
@@ -157,7 +157,7 @@ app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
 
 ---
 
-## 6. Arquitetura — MVVM
+## 6 Arquitetura — MVVM
 
 O app segue o padrão **MVVM (Model-View-ViewModel)** recomendado pelo Google para apps Compose:
 
@@ -190,7 +190,7 @@ O app segue o padrão **MVVM (Model-View-ViewModel)** recomendado pelo Google pa
 
 ---
 
-## 7. Camada de Dados
+## 7 Camada de Dados
 
 ### `Task.kt` — Modelo de Dados
 
@@ -256,7 +256,7 @@ suspend fun createTask(task: Task): Task = api.createTask(task)
 
 ---
 
-## 8. Camada de ViewModel
+## 8 Camada de ViewModel
 
 ### `TaskUiState.kt` — Estados da UI
 
@@ -309,17 +309,17 @@ Todas as operações de rede rodam em `viewModelScope.launch { }` — canceladas
 
 ---
 
-## 9. Camada de UI
+## 9 Camada de UI
 
 ### `TaskItem.kt` — Componente de Tarefa
 
 Card reutilizável exibido em cada linha da lista:
 
-- Clique no card → navega para edição
-- Checkbox → chama `toggleCompleted`
-- Botão lixeira → abre `AlertDialog` de confirmação antes de excluir
-- Título com `TextDecoration.LineThrough` quando concluída
-- Texto esmaecido (`alpha 0.5f`) na coluna de texto de tarefas concluídas
+- **Clique no card**: navega para edição.
+- **Checkbox**: chama `toggleCompleted`.
+- **Botão lixeira**: abre `AlertDialog` de confirmação antes de excluir.
+- **Título**: com `TextDecoration.LineThrough` quando concluída.
+- **Texto**: esmaecido (`alpha 0.5f`) na coluna de texto de tarefas concluídas.
 
 ---
 
@@ -346,7 +346,7 @@ Funciona em dois modos:
 
 **Ciclo de vida da tela:**
 
-```
+```text
 Tela entra
     → DisposableEffect(Unit): resetFormState() limpa estado anterior imediatamente
     → LaunchedEffect(taskId): se edição, busca tarefa da API
@@ -357,12 +357,13 @@ Tela entra
 O `DisposableEffect` é fundamental para evitar que um `Saved` residual de uma operação anterior dispare navegação imediata ao abrir a tela novamente.
 
 **Validação:**
-- Título em branco → exibe `supportingText` com mensagem de erro no campo
-- Botão desabilitado durante `Loading` e antes de `selectedTask` chegar (modo edição)
+
+- **Título em branco**: exibe `supportingText` com mensagem de erro no campo.
+- **Botão desabilitado**: durante `Loading` e antes de `selectedTask` chegar (modo edição).
 
 ---
 
-## 10. Tema Deep Ocean
+## 10 Tema Deep Ocean
 
 O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do oceano: teal, navy e cyan. Substitui completamente o tema padrão gerado pelo Android Studio.
 
@@ -395,7 +396,7 @@ O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do o
 
 Fonte **Nunito** carregada via Google Fonts (`ui-text-google-fonts`). Nunito tem letterforms arredondados que combinam visualmente com os cantos arredondados dos cards.
 
-```
+```text
 Display  → Nunito Bold
 Headline → Nunito Bold
 Title    → Nunito SemiBold
@@ -431,7 +432,7 @@ A fonte é baixada em runtime pelo Google Play Services — sem arquivos `.ttf` 
 
 ---
 
-## 11. Navegação
+## 11 Navegação
 
 O app usa **Navigation Compose** com um `NavHost` central em `MainActivity`:
 
@@ -445,7 +446,7 @@ Um único `TaskViewModel` é instanciado na `MainActivity` e compartilhado entre
 
 **Fluxo de navegação:**
 
-```
+```text
 TaskListScreen
     ├── FAB (+) ──────────────────────────────► task_form
     ├── Clique no card ──────────────────────► task_form/{id}
@@ -458,7 +459,7 @@ TaskFormScreen
 
 ---
 
-## 12. Contrato da API
+## 12 Contrato da API
 
 O backend deve expor os seguintes endpoints em `http://localhost:8080`:
 
@@ -485,12 +486,12 @@ O backend deve expor os seguintes endpoints em `http://localhost:8080`:
 
 ---
 
-## 13. Histórico de Commits
+## 13 Histórico de Commits
 
 O projeto foi construído de forma incremental. Cada commit representa uma camada ou funcionalidade independente:
 
 | Commit | Mensagem | O que foi feito |
-|---|---|---|
+| :--- | :--- | :--- |
 | `b660b32` | `chore: initial commit` | Projeto base gerado pelo Android Studio |
 | `2c9c12e` | `chore: add dependencies` | Retrofit, OkHttp, Coroutines, Navigation, ViewModel |
 | `9343474` | `chore: add BOM comment` | Comentário explicativo no `okhttp-logging` no TOML |
@@ -512,7 +513,7 @@ O projeto foi construído de forma incremental. Cada commit representa uma camad
 
 ---
 
-## 14. Decisões de Design
+## 14 Decisões de Design
 
 ### Por que MVVM com StateFlow e não LiveData?
 
