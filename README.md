@@ -1,29 +1,34 @@
 # TasksFaculdade — App Android de Gerenciamento de Tarefas
 
+![Kotlin](https://img.shields.io/badge/Kotlin-2.2.10-7F52FF?logo=kotlin&logoColor=white)
+![Android](https://img.shields.io/badge/Android-API%2035%2B-3DDC84?logo=android&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-BOM%202026.02.01-4285F4?logo=jetpackcompose&logoColor=white)
+![Retrofit](https://img.shields.io/badge/Retrofit-2.11.0-48B983)
+
 App Android desenvolvido em **Kotlin + Jetpack Compose** para gerenciar tarefas via API REST. Consome um backend **Spring Boot** (microserviço separado), usa arquitetura **MVVM com StateFlow** e tem interface visual moderna com o tema **Deep Ocean**.
 
 ---
 
 ## Índice
 
-- [1 Visão Geral](#1-visão-geral)
-- [2 Stack Tecnológica](#2-stack-tecnológica)
-- [3 Pré-requisitos](#3-pré-requisitos)
-- [4 Como rodar o projeto](#4-como-rodar-o-projeto)
-- [5 Estrutura de Pacotes](#5-estrutura-de-pacotes)
-- [6 Arquitetura — MVVM](#6-arquitetura--mvvm)
-- [7 Camada de Dados](#7-camada-de-dados)
-- [8 Camada de ViewModel](#8-camada-de-viewmodel)
-- [9 Camada de UI](#9-camada-de-ui)
-- [10 Tema Deep Ocean](#10-tema-deep-ocean)
-- [11 Navegação](#11-navegação)
-- [12 Contrato da API](#12-contrato-da-api)
-- [13 Histórico de Commits](#13-histórico-de-commits)
-- [14 Decisões de Design](#14-decisões-de-design)
+- [1. Visão Geral](#1-visão-geral)
+- [2. Stack Tecnológica](#2-stack-tecnológica)
+- [3. Pré-requisitos](#3-pré-requisitos)
+- [4. Como rodar o projeto](#4-como-rodar-o-projeto)
+- [5. Estrutura de Pacotes](#5-estrutura-de-pacotes)
+- [6. Arquitetura — MVVM](#6-arquitetura--mvvm)
+- [7. Camada de Dados](#7-camada-de-dados)
+- [8. Camada de ViewModel](#8-camada-de-viewmodel)
+- [9. Camada de UI](#9-camada-de-ui)
+- [10. Tema Deep Ocean](#10-tema-deep-ocean)
+- [11. Navegação](#11-navegação)
+- [12. Contrato da API](#12-contrato-da-api)
+- [13. Histórico de Commits](#13-histórico-de-commits)
+- [14. Decisões de Design](#14-decisões-de-design)
 
 ---
 
-## 1 Visão Geral
+## 1. Visão Geral
 
 O app exibe uma lista de tarefas buscadas de um servidor local, permite criar novas tarefas, editar existentes, marcar como concluídas e excluir. Toda a persistência é feita no backend — o app é puramente um cliente REST.
 
@@ -34,14 +39,14 @@ O app exibe uma lista de tarefas buscadas de um servidor local, permite criar no
 | Listar tarefas | Exibe todas as tarefas com título, descrição e status |
 | Criar tarefa | Formulário com título (obrigatório) e descrição |
 | Editar tarefa | Pré-preenche o formulário com dados existentes |
-| Marcar como concluída | Checkbox alterna o status via PUT na API |
+| Marcar como concluída | Checkbox alterna o status via `PUT` na API |
 | Excluir tarefa | Botão de lixeira com diálogo de confirmação |
-| Loading/Error | Indicadores visuais para cada estado da requisição |
+| Loading / Error | Indicadores visuais para cada estado da requisição |
 | Light + Dark mode | Tema automático baseado na preferência do sistema |
 
 ---
 
-## 2 Stack Tecnológica
+## 2. Stack Tecnológica
 
 | Componente | Versão | Função |
 | :--- | :--- | :--- |
@@ -60,24 +65,24 @@ O app exibe uma lista de tarefas buscadas de um servidor local, permite criar no
 
 ---
 
-## 3 Pré-requisitos
+## 3. Pré-requisitos
 
 - **Android Studio** Hedgehog ou mais recente
 - **JDK 11+**
 - **Backend Spring Boot** rodando localmente na porta `8080`
   - O emulador Android acessa o host via `10.0.2.2` (equivale ao `localhost` da máquina)
-  - O projeto do backend está em `C:\Users\talis\IdeaProjects\ProjetoJavaSpringFaculdade`
+  - O projeto do backend está em `~/IdeaProjects/ProjetoJavaSpringFaculdade`
 - **Emulador Android** com API 35+ (Pixel 6 ou equivalente recomendado)
 
 ---
 
-## 4 Como rodar o projeto
+## 4. Como rodar o projeto
 
 ### 4.1 Subir o backend
 
 ```bash
 # Na pasta do projeto Spring Boot
-cd C:/Users/talis/IdeaProjects/ProjetoJavaSpringFaculdade
+cd ~/IdeaProjects/ProjetoJavaSpringFaculdade
 
 # Com Maven Wrapper
 ./mvnw spring-boot:run
@@ -93,6 +98,7 @@ GET http://localhost:8080/tasks
 ```
 
 Resposta esperada:
+
 ```json
 []
 ```
@@ -100,7 +106,7 @@ Resposta esperada:
 ### 4.2 Abrir o projeto Android
 
 1. Abra o **Android Studio**.
-2. `File > Open` → selecione `C:\Users\talis\AndroidStudioProjects\TasksFaculdade`.
+2. `File > Open` → selecione a pasta `TasksFaculdade`.
 3. Aguarde o Gradle sync finalizar.
 4. Inicie o emulador (API 35+).
 5. Clique em **Run 'app'** (▶).
@@ -108,7 +114,8 @@ Resposta esperada:
 ### 4.3 Build via linha de comando
 
 ```bash
-cd C:/Users/talis/AndroidStudioProjects/TasksFaculdade
+# Na raiz do projeto Android
+cd ~/Developer/TasksFaculdade
 
 # Compilar APK de debug
 ./gradlew assembleDebug
@@ -118,15 +125,16 @@ cd C:/Users/talis/AndroidStudioProjects/TasksFaculdade
 ```
 
 O APK gerado fica em:
-```text
+
+```
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
 ---
 
-## 5 Estrutura de Pacotes
+## 5. Estrutura de Pacotes
 
-```text
+```
 app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
 │
 ├── MainActivity.kt                  # Entry point — NavHost e tema
@@ -157,40 +165,31 @@ app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
 
 ---
 
-## 6 Arquitetura — MVVM
+## 6. Arquitetura — MVVM
 
 O app segue o padrão **MVVM (Model-View-ViewModel)** recomendado pelo Google para apps Compose:
 
-```text
-┌─────────────────────────────────────────────────────┐
-│  UI Layer (Compose)                                 │
-│  TaskListScreen / TaskFormScreen / TaskItem         │
-│       │ observa StateFlow             │ chama fun   │
-└───────┼─────────────────────────────────────────────┘
-        │
-┌───────▼─────────────────────────────────────────────┐
-│  ViewModel Layer                                    │
-│  TaskViewModel                                      │
-│  - listUiState: StateFlow<TaskListUiState>          │
-│  - formUiState: StateFlow<TaskFormUiState>          │
-│  - selectedTask: StateFlow<Task?>                   │
-└───────┼─────────────────────────────────────────────┘
-        │ suspend fun
-┌───────▼─────────────────────────────────────────────┐
-│  Data Layer                                         │
-│  TaskRepository → TaskApiService → Retrofit → HTTP  │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    UI["🖥️ UI Layer (Compose)\nTaskListScreen · TaskFormScreen · TaskItem"]
+    VM["⚙️ ViewModel Layer\nTaskViewModel\n─────────────────\nlistUiState: StateFlow\nformUiState: StateFlow\nselectedTask: StateFlow"]
+    Data["🗄️ Data Layer\nTaskRepository → TaskApiService → Retrofit → HTTP"]
+
+    UI -- "observa StateFlow" --> VM
+    UI -- "chama funções" --> VM
+    VM -- "suspend fun" --> Data
 ```
 
 **Regras da arquitetura:**
+
 - A UI **nunca** chama a API diretamente — sempre via ViewModel
-- O ViewModel **nunca** importa classes de UI (nenhum `Context`, `Activity`, `Composable`)
+- O ViewModel **nunca** importa classes de UI (`Context`, `Activity`, `Composable`)
 - O Repository é a única porta de saída para a rede
 - Estados da UI são imutáveis e observados via `collectAsStateWithLifecycle()`
 
 ---
 
-## 7 Camada de Dados
+## 7. Camada de Dados
 
 ### `Task.kt` — Modelo de Dados
 
@@ -238,7 +237,7 @@ Todas as funções são `suspend` — rodam dentro de coroutines sem bloquear a 
 private const val BASE_URL = "http://10.0.2.2:8080/"
 ```
 
-> `10.0.2.2` é o endereço especial do emulador Android que aponta para o `localhost` da máquina host. Em dispositivo físico, use o IP da máquina na rede local.
+> **Nota:** `10.0.2.2` é o endereço especial do emulador Android que aponta para o `localhost` da máquina host. Em dispositivo físico, substitua pelo IP da máquina na rede local.
 
 O `HttpLoggingInterceptor` com nível `BODY` imprime todas as requisições e respostas no Logcat durante o desenvolvimento — útil para depurar problemas de serialização JSON.
 
@@ -256,7 +255,7 @@ suspend fun createTask(task: Task): Task = api.createTask(task)
 
 ---
 
-## 8 Camada de ViewModel
+## 8. Camada de ViewModel
 
 ### `TaskUiState.kt` — Estados da UI
 
@@ -288,7 +287,7 @@ sealed class TaskFormUiState {
 Três `StateFlow` expostos para a UI:
 
 | StateFlow | Tipo | Responsável por |
-|---|---|---|
+| :--- | :--- | :--- |
 | `listUiState` | `TaskListUiState` | Estado da lista de tarefas |
 | `formUiState` | `TaskFormUiState` | Estado do formulário de criação/edição |
 | `selectedTask` | `Task?` | Tarefa carregada para edição |
@@ -296,7 +295,7 @@ Três `StateFlow` expostos para a UI:
 **Funções públicas:**
 
 | Função | O que faz |
-|---|---|
+| :--- | :--- |
 | `loadTasks()` | Busca todas as tarefas da API e atualiza `listUiState` |
 | `loadTaskForEdit(id)` | Busca uma tarefa específica e preenche `selectedTask` |
 | `createTask(task)` | Cria nova tarefa via POST, emite `Saved` em sucesso |
@@ -309,17 +308,17 @@ Todas as operações de rede rodam em `viewModelScope.launch { }` — canceladas
 
 ---
 
-## 9 Camada de UI
+## 9. Camada de UI
 
 ### `TaskItem.kt` — Componente de Tarefa
 
 Card reutilizável exibido em cada linha da lista:
 
-- **Clique no card**: navega para edição.
-- **Checkbox**: chama `toggleCompleted`.
-- **Botão lixeira**: abre `AlertDialog` de confirmação antes de excluir.
-- **Título**: com `TextDecoration.LineThrough` quando concluída.
-- **Texto**: esmaecido (`alpha 0.5f`) na coluna de texto de tarefas concluídas.
+- **Clique no card** → navega para edição
+- **Checkbox** → chama `toggleCompleted`
+- **Botão lixeira** → abre `AlertDialog` de confirmação antes de excluir
+- **Título** → com `TextDecoration.LineThrough` quando concluída
+- **Texto** → esmaecido (`alpha 0.5f`) em tarefas concluídas
 
 ---
 
@@ -328,7 +327,7 @@ Card reutilizável exibido em cada linha da lista:
 Gerencia três estados via `when (uiState)`:
 
 | Estado | O que exibe |
-|---|---|
+| :--- | :--- |
 | `Loading` | `CircularProgressIndicator` centralizado |
 | `Error` | Mensagem de erro + botão "Tentar novamente" |
 | `Success` (lista vazia) | Texto de instrução para criar a primeira tarefa |
@@ -341,29 +340,30 @@ Gerencia três estados via `when (uiState)`:
 ### `TaskFormScreen.kt` — Tela de Criação/Edição
 
 Funciona em dois modos:
+
 - **Criação:** `taskId == null` → título da barra "Nova Tarefa", botão "Salvar"
 - **Edição:** `taskId != null` → título da barra "Editar Tarefa", botão "Atualizar", campos pré-preenchidos
 
 **Ciclo de vida da tela:**
 
-```text
+```
 Tela entra
-    → DisposableEffect(Unit): resetFormState() limpa estado anterior imediatamente
-    → LaunchedEffect(taskId): se edição, busca tarefa da API
-    → LaunchedEffect(selectedTask): quando tarefa chega, preenche os campos
-    → LaunchedEffect(formUiState): quando estado vira Saved, navega de volta
+  → DisposableEffect(Unit): resetFormState() limpa estado anterior imediatamente
+  → LaunchedEffect(taskId): se edição, busca tarefa da API
+  → LaunchedEffect(selectedTask): quando tarefa chega, preenche os campos
+  → LaunchedEffect(formUiState): quando estado vira Saved, navega de volta
 ```
 
 O `DisposableEffect` é fundamental para evitar que um `Saved` residual de uma operação anterior dispare navegação imediata ao abrir a tela novamente.
 
 **Validação:**
 
-- **Título em branco**: exibe `supportingText` com mensagem de erro no campo.
-- **Botão desabilitado**: durante `Loading` e antes de `selectedTask` chegar (modo edição).
+- **Título em branco** → exibe `supportingText` com mensagem de erro no campo
+- **Botão desabilitado** → durante `Loading` e antes de `selectedTask` chegar (modo edição)
 
 ---
 
-## 10 Tema Deep Ocean
+## 10. Tema Deep Ocean
 
 O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do oceano: teal, navy e cyan. Substitui completamente o tema padrão gerado pelo Android Studio.
 
@@ -372,7 +372,7 @@ O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do o
 **Light Mode:**
 
 | Token Material3 | Cor | Hex |
-|---|---|---|
+| :--- | :--- | :--- |
 | `primary` | Teal 600 | `#00897B` |
 | `primaryContainer` | Teal 100 | `#B2DFDB` |
 | `background` | Branco azulado | `#F0F7F7` |
@@ -383,7 +383,7 @@ O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do o
 **Dark Mode:**
 
 | Token Material3 | Cor | Hex |
-|---|---|---|
+| :--- | :--- | :--- |
 | `primary` | Teal 200 | `#80CBC4` |
 | `background` | Navy profundo | `#0D1B2A` |
 | `surface` | Navy médio | `#102232` |
@@ -396,7 +396,7 @@ O app usa um tema customizado chamado **Deep Ocean** — inspirado em cores do o
 
 Fonte **Nunito** carregada via Google Fonts (`ui-text-google-fonts`). Nunito tem letterforms arredondados que combinam visualmente com os cantos arredondados dos cards.
 
-```text
+```
 Display  → Nunito Bold
 Headline → Nunito Bold
 Title    → Nunito SemiBold
@@ -411,7 +411,7 @@ A fonte é baixada em runtime pelo Google Play Services — sem arquivos `.ttf` 
 ### Shapes — Cantos Arredondados
 
 | Tamanho | Raio | Usado em |
-|---|---|---|
+| :--- | :--- | :--- |
 | `extraSmall` | 8 dp | Chips, tooltips |
 | `small` | 10 dp | Botões |
 | `medium` | 16 dp | Cards de tarefa, dialogs |
@@ -423,48 +423,48 @@ A fonte é baixada em runtime pelo Google Play Services — sem arquivos `.ttf` 
 ### Arquivos do Tema
 
 | Arquivo | Responsabilidade |
-|---|---|
+| :--- | :--- |
 | `Color.kt` | 25 constantes Light + 25 Dark com os valores hex |
 | `Type.kt` | `NunitoFontFamily` + objeto `Typography` com 15 estilos |
 | `Theme.kt` | `LightColorScheme`, `DarkColorScheme`, `AppShapes`, `TasksFaculdadeTheme` |
 
-**Dynamic Color desativado:** Em Android 12+ o sistema pode sobrescrever cores com as do papel de parede do usuário. O app força sempre a paleta Deep Ocean — `dynamicColor` foi removido completamente do `Theme.kt`.
+> **Dynamic Color desativado:** Em Android 12+ o sistema pode sobrescrever cores com as do papel de parede do usuário. O app força sempre a paleta Deep Ocean — `dynamicColor` foi removido completamente do `Theme.kt`.
 
 ---
 
-## 11 Navegação
+## 11. Navegação
 
 O app usa **Navigation Compose** com um `NavHost` central em `MainActivity`:
 
-```text
-task_list              → TaskListScreen
-task_form              → TaskFormScreen (criação, taskId = null)
-task_form/{taskId}     → TaskFormScreen (edição, taskId = Long)
-```
+| Rota | Tela | Modo |
+| :--- | :--- | :--- |
+| `task_list` | `TaskListScreen` | — |
+| `task_form` | `TaskFormScreen` | Criação (`taskId = null`) |
+| `task_form/{taskId}` | `TaskFormScreen` | Edição (`taskId = Long`) |
 
 Um único `TaskViewModel` é instanciado na `MainActivity` e compartilhado entre as duas telas. Isso garante que a lista seja atualizada automaticamente após criar ou editar uma tarefa.
 
 **Fluxo de navegação:**
 
-```text
-TaskListScreen
-    ├── FAB (+) ──────────────────────────────► task_form
-    ├── Clique no card ──────────────────────► task_form/{id}
-    └── (aguarda popBackStack de TaskFormScreen)
+```mermaid
+graph LR
+    List["TaskListScreen"]
+    Form["TaskFormScreen"]
 
-TaskFormScreen
-    ├── Botão Voltar (←) ────────────────────► popBackStack
-    └── Salvar com sucesso ──────────────────► popBackStack (via LaunchedEffect on Saved)
+    List -- "FAB (+)" --> Form
+    List -- "Clique no card" --> Form
+    Form -- "Botão Voltar" --> List
+    Form -- "Salvar com sucesso" --> List
 ```
 
 ---
 
-## 12 Contrato da API
+## 12. Contrato da API
 
 O backend deve expor os seguintes endpoints em `http://localhost:8080`:
 
 | Método | Endpoint | Body | Retorno | Descrição |
-|---|---|---|---|---|
+| :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/tasks` | — | `List<Task>` | Listar todas |
 | `GET` | `/tasks/{id}` | — | `Task` | Buscar por ID |
 | `POST` | `/tasks` | `Task` (sem id) | `Task` (com id) | Criar |
@@ -486,7 +486,7 @@ O backend deve expor os seguintes endpoints em `http://localhost:8080`:
 
 ---
 
-## 13 Histórico de Commits
+## 13. Histórico de Commits
 
 O projeto foi construído de forma incremental. Cada commit representa uma camada ou funcionalidade independente:
 
@@ -513,7 +513,7 @@ O projeto foi construído de forma incremental. Cada commit representa uma camad
 
 ---
 
-## 14 Decisões de Design
+## 14. Decisões de Design
 
 ### Por que MVVM com StateFlow e não LiveData?
 
