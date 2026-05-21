@@ -88,9 +88,13 @@ cd C:/Users/talis/IdeaProjects/ProjetoJavaSpringFaculdade
 
 Confirme que a API responde antes de iniciar o app:
 
-```
+```http
 GET http://localhost:8080/tasks
-→ 200 OK  [ ]
+```
+
+Resposta esperada:
+```json
+[]
 ```
 
 ### 4.2 Abrir o projeto Android
@@ -114,7 +118,7 @@ cd C:/Users/talis/AndroidStudioProjects/TasksFaculdade
 ```
 
 O APK gerado fica em:
-```
+```text
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
@@ -122,7 +126,7 @@ app/build/outputs/apk/debug/app-debug.apk
 
 ## 5. Estrutura de Pacotes
 
-```
+```text
 app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
 │
 ├── MainActivity.kt                  # Entry point — NavHost e tema
@@ -157,7 +161,7 @@ app/src/main/java/com/kotlincrossplatform/tasksfaculdade/
 
 O app segue o padrão **MVVM (Model-View-ViewModel)** recomendado pelo Google para apps Compose:
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │  UI Layer (Compose)                                 │
 │  TaskListScreen / TaskFormScreen / TaskItem         │
@@ -431,7 +435,7 @@ A fonte é baixada em runtime pelo Google Play Services — sem arquivos `.ttf` 
 
 O app usa **Navigation Compose** com um `NavHost` central em `MainActivity`:
 
-```
+```text
 task_list              → TaskListScreen
 task_form              → TaskFormScreen (criação, taskId = null)
 task_form/{taskId}     → TaskFormScreen (edição, taskId = Long)
